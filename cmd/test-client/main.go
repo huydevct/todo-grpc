@@ -19,7 +19,7 @@ const (
 )
 
 func main() {
-	address := flag.String("server", "", ":9090")
+	address := flag.String("server", "", "gRPC port like :port")
 	flag.Parse()
 
 	conn, err := grpc.Dial(*address, grpc.WithTransportCredentials(insecure.NewCredentials()))
