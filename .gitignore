@@ -1,0 +1,4 @@
+*.exe
+go-vendor/*
+cmd/server/server
+cmd/test-client/test-client
