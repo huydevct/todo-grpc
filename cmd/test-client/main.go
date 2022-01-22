@@ -6,8 +6,10 @@ import (
 	"log"
 	"time"
 
-	"github.com/golang/protobuf/ptypes"
+	// "github.com/golang/protobuf/ptypes"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/huydevct/todo-grpc/pkg/api/v1"
 )
@@ -17,10 +19,10 @@ const (
 )
 
 func main() {
-	address := flag.String("server", "", "localhost:9090")
+	address := flag.String("server", "", ":9090")
 	flag.Parse()
 
-	conn, err := grpc.Dial(*address, grpc.WithInsecure())
+	conn, err := grpc.Dial(*address, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
@@ -32,7 +34,7 @@ func main() {
 	defer cancel()
 
 	t := time.Now().In(time.UTC)
-	insert_at, _ := ptypes.TimestampProto(t)
+	insert_at := timestamppb.New(t)
 	pfx := t.Format(time.RFC3339Nano)
 
 	// call create
