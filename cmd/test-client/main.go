@@ -19,9 +19,10 @@ const (
 )
 
 func main() {
-	address := flag.String("server", "", "gRPC port like :port")
+	address := flag.String("server", "", ":port") // gRPC port like :port
 	flag.Parse()
 
+	// set up connect to server
 	conn, err := grpc.Dial(*address, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
@@ -84,7 +85,17 @@ func main() {
 	}
 	log.Printf("Update result: <%+v>\n\n", res3)
 
-	// call readAll
+	// Call ReadAll
+	req4 := v1.ReadAllRequest{
+		Api: apiVersion,
+	}
+	res4, err := c.ReadAll(ctx, &req4)
+	if err != nil {
+		log.Fatalf("ReadAll failed: %v", err)
+	}
+	log.Printf("ReadAll result: <%+v>\n\n", res4)
+
+	// call delete
 	req5 := v1.DeleteRequest{
 		Api: apiVersion,
 		Id: id,

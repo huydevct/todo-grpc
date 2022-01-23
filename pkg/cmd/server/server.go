@@ -28,6 +28,7 @@ type Config struct {
 func RunServer() error {
 	ctx := context.Background()
 
+	// get config
 	var cfg Config
 	flag.StringVar(&cfg.GRPCPort, "grpc-port", "", "gRPC port to bind")
 	flag.StringVar(&cfg.DatastoreDBHost, "db-host", "", "Database host")
